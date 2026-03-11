@@ -15,35 +15,41 @@ export default function EditCategory(props) {
   const [icon, setIcon] = useState(data?.icon);
 
   const updateCategory = async () => {
-    if (name === "" || icon === "") {
+    if (!name || !icon) {
       ctx?.notify("error", "Please fill in all fields");
       return;
     }
 
-    setUpdating("Updating...");
-    const tmpCategories = [].concat(ctx?.profile?.categories || []).map((e) => {
-      if (e?.id == data?.id) {
-        return {
-          ...e,
-          name: name,
-          icon: icon,
-        };
-      }
-      return e;
-    });
+    if (!ctx?.uid) {
+      ctx?.notify("error", "User not authenticated");
+      return;
+    }
 
-    const tmpExpensesIncome = [].concat(ctx?.data || []).map((e) => {
-      if (e?.category.name == name) {
-        return {
-          ...e,
-          category: {
-            name: name,
-            icon: icon,
-          },
-        };
-      }
-      return e;
-    });
+    setUpdating("Updating...");
+
+    const currentCategories = ctx?.profile?.categories || [];
+
+    const tmpCategories = currentCategories.map((e) =>
+      e?.id === data?.id
+        ? {
+            ...e,
+            name,
+            icon,
+          }
+        : e
+    );
+
+    const tmpExpensesIncome = (ctx?.data || []).map((e) =>
+      e?.category.name === data?.name
+        ? {
+            ...e,
+            category: {
+              name,
+              icon,
+            },
+          }
+        : e
+    );
 
     const tmpProfileData = {
       ...ctx?.profile,
@@ -56,21 +62,24 @@ export default function EditCategory(props) {
     };
 
     const db = getFirestore();
-    const dataRef = collection(db, `users/${ctx?.uid}/data`);
+    const dataRef = collection(db, `users/${ctx.uid}/data`);
 
-    Promise.all([
-      await setDoc(doc(dataRef, ctx?.activeMonth), finalData),
-      await setDoc(doc(db, "users", ctx?.uid), tmpProfileData),
-    ])
-      .then(() => {
-        ctx?.notify("success", "Category successfully updated");
-        setEditCategoryModal(null);
-        setUpdating(null);
-      })
-      .catch(() => {
-        ctx?.notify("error", "Error updating category");
-        setUpdating(null);
-      });
+    try {
+      await Promise.all([
+        setDoc(doc(dataRef, ctx.activeMonth), finalData),
+        setDoc(doc(db, "users", ctx.uid), tmpProfileData),
+      ]);
+
+      ctx?.set("data", tmpExpensesIncome);
+      ctx?.set("profile", tmpProfileData);
+
+      ctx?.notify("success", "Category successfully updated");
+      setEditCategoryModal(null);
+    } catch (e) {
+      ctx?.notify("error", "Error updating category");
+    } finally {
+      setUpdating(null);
+    }
   };
 
   return (

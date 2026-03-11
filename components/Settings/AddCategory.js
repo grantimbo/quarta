@@ -17,14 +17,19 @@ export default function AddCategory({ setAddCategoryModal }) {
   const [icon, setIcon] = useState(null);
 
   const addCategory = async () => {
-    //check for erors
+    //check for errors
     if (!name || !icon || method === null) {
       ctx?.notify("error", "Please fill the empty fields");
       return;
     }
 
+    if (!ctx?.uid) {
+      ctx?.notify("error", "User not authenticated");
+      return;
+    }
+
     //  check for duplicates
-    const tmpCategories = [].concat(ctx?.profile?.categories || []);
+    const tmpCategories = [...(ctx?.profile?.categories || [])];
     if (tmpCategories?.find((e) => e?.name === name)) {
       ctx?.notify("error", "Category already exist");
       return;
@@ -47,15 +52,18 @@ export default function AddCategory({ setAddCategoryModal }) {
     };
 
     const db = getFirestore();
-    await setDoc(doc(db, "users", ctx?.uid), tmpData)
-      .then(() => {
-        ctx?.notify("success", "Category successfully added");
-        setAddCategoryModal(false);
-      })
-      .catch(() => {
-        ctx?.notify("error", "Error adding category");
-        setLoading(null);
-      });
+
+    try {
+      await setDoc(doc(db, "users", ctx.uid), tmpData);
+
+      ctx?.set("profile", tmpData);
+      ctx?.notify("success", "Category successfully added");
+      setAddCategoryModal(false);
+    } catch (e) {
+      ctx?.notify("error", "Error adding category");
+    } finally {
+      setLoading(null);
+    }
   };
 
   return (

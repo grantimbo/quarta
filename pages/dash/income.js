@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { Context } from "../../support/globalState";
 import DashLayout from "../../components/DashLayout";
 import BackHomeLink from "../../components/BackHomeLink";
@@ -12,43 +12,48 @@ export default function Income() {
   const [filterWord, setFilterWord] = useState(null);
   const [filteredItems, setFilteredItems] = useState([]);
 
-  const chartData = [];
-  const incomeList = [];
+  const incomeList = useMemo(() => {
+    if (!ctx?.data) return [];
+    return ctx.data.filter((item) => item.method === 1);
+  }, [ctx?.data]);
 
-  ctx?.data?.filter((item, index) => {
-    if (item.method == 1) {
-      incomeList.push(item);
-      if (
-        ctx?.data?.findIndex((x) => x.category.name == item.category.name) ===
-        index
-      ) {
-        chartData.push({
+  const chartData = useMemo(() => {
+    const data = [];
+
+    incomeList.forEach((item) => {
+      const existingIndex = data.findIndex(
+        (x) => x.category === item.category.name
+      );
+
+      const value = parseFloat(item.value) || 0;
+
+      if (existingIndex === -1) {
+        data.push({
           category: item.category.name,
-          value: parseInt(item.value),
+          value,
         });
       } else {
-        let oten = chartData.findIndex(
-          (x) => x.category === item.category.name
-        );
-        chartData[oten].value += parseInt(item.value);
+        data[existingIndex].value += value;
       }
-    }
-  });
+    });
+
+    return data;
+  }, [incomeList]);
 
   useEffect(() => {
     if (!filterWord) {
       setFilteredItems(incomeList);
-    } else {
-      const filtered = incomeList.filter((item) => {
-        if (
-          item.category.name.toLowerCase().includes(filterWord.toLowerCase())
-        ) {
-          return item;
-        }
-      });
-      setFilteredItems(filtered);
+      return;
     }
-  }, [filterWord]);
+
+    const lower = filterWord.toLowerCase();
+
+    const filtered = incomeList.filter((item) =>
+      item.category.name.toLowerCase().includes(lower)
+    );
+
+    setFilteredItems(filtered);
+  }, [filterWord, incomeList]);
 
   return (
     <>

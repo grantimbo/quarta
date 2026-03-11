@@ -20,9 +20,11 @@ const m = ("0" + (d.getMonth() + 1)).slice(-2);
 const y = d.getFullYear();
 const auth = getAuth();
 const db = getFirestore();
-let profileListener = null;
 
 export class GlobalStateProvider extends React.Component {
+  authUnsub = null;
+  profileListener = null;
+
   state = {
     profile: {},
     notifications: [],
@@ -53,6 +55,48 @@ export class GlobalStateProvider extends React.Component {
     });
   }
 
+  async loadAllUserData() {
+    const { uid } = this.state;
+
+    if (!uid) {
+      return {
+        allItems: [],
+        total: { income: 0, expense: 0, balance: 0 },
+      };
+    }
+
+    const userDataCol = collection(db, `users/${uid}/data`);
+    const snapshot = await getDocs(userDataCol);
+
+    const allItems = [];
+    const total = {
+      income: 0,
+      expense: 0,
+      balance: 0,
+    };
+
+    snapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+
+      if (Array.isArray(data?.data)) {
+        allItems.push(...data.data);
+      }
+
+      if (data?.total) {
+        total.income += data.total.income || 0;
+        total.expense += data.total.expense || 0;
+        total.balance += data.total.balance || 0;
+      }
+    });
+
+    this.setState({
+      data: allItems,
+      total,
+    });
+
+    return { allItems, total };
+  }
+
   listenForProfile(uid) {
     const getData = async () => {
       const userData = collection(db, `users/${uid}/data`);
@@ -65,13 +109,13 @@ export class GlobalStateProvider extends React.Component {
 
     getData();
 
-    profileListener = onSnapshot(doc(db, "users", uid), (doc) => {
+    this.profileListener = onSnapshot(doc(db, "users", uid), (doc) => {
       this.setState({ profile: doc.data() });
     });
   }
 
   componentDidMount() {
-    onAuthStateChanged(auth, (user) => {
+    this.authUnsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         this.setState({
           uid: user.uid,
@@ -85,19 +129,43 @@ export class GlobalStateProvider extends React.Component {
           email: null,
           profile: {},
           loggedIn: false,
+          notifications: [],
+          monthList: [],
+          data: [],
+          total: {
+            income: 0,
+            expense: 0,
+            balance: 0,
+          },
         });
-        profileListener && profileListener();
+        if (this.profileListener) {
+          this.profileListener();
+          this.profileListener = null;
+        }
       }
     });
+  }
+
+  componentWillUnmount() {
+    if (this.authUnsub) {
+      this.authUnsub();
+      this.authUnsub = null;
+    }
+    if (this.profileListener) {
+      this.profileListener();
+      this.profileListener = null;
+    }
   }
 
   render() {
     return (
       <Context.Provider
-        value={Object.assign(this.state, {
+        value={{
+          ...this.state,
           set: (key, value) => this.set(key, value),
           notify: (kind, msg) => this.notify(kind, msg),
-        })}
+          loadAllUserData: () => this.loadAllUserData(),
+        }}
       >
         {this.props.children}
       </Context.Provider>

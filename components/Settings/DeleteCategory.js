@@ -8,14 +8,21 @@ const DeleteCategory = ({ data, setEditCategoryModal }) => {
   const [deleting, setDeleting] = useState(null);
 
   const removeCategory = async () => {
-    const tmpCategories = [].concat(ctx?.profile?.categories || []);
-    const check = tmpCategories.filter((e) => e?.method == data?.method);
+    const tmpCategories = ctx?.profile?.categories || [];
+    const check = tmpCategories.filter((e) => e?.method === data?.method);
 
     if (check.length <= 1) {
       ctx?.notify(
         "info",
-        `${data?.method == 0 ? "Expense" : "Income"} category must not be empty`
+        `${
+          data?.method === 0 ? "Expense" : "Income"
+        } category must not be empty`
       );
+      return;
+    }
+
+    if (!ctx?.uid) {
+      ctx?.notify("error", "User not authenticated");
       return;
     }
 
@@ -23,19 +30,22 @@ const DeleteCategory = ({ data, setEditCategoryModal }) => {
 
     const tmpData = {
       ...ctx?.profile,
-      categories: tmpCategories.filter((e) => e?.id != data?.id),
+      categories: tmpCategories.filter((e) => e?.id !== data?.id),
     };
 
     const db = getFirestore();
-    await setDoc(doc(db, "users", ctx?.uid), tmpData)
-      .then(() => {
-        ctx?.notify("success", "Category successfully deleted");
-        setEditCategoryModal(null);
-      })
-      .catch(() => {
-        ctx?.notify("error", "Error deleting category");
-        setDeleting(null);
-      });
+    try {
+      await setDoc(doc(db, "users", ctx.uid), tmpData);
+
+      ctx?.set("profile", tmpData);
+
+      ctx?.notify("success", "Category successfully deleted");
+      setEditCategoryModal(null);
+    } catch (e) {
+      ctx?.notify("error", "Error deleting category");
+    } finally {
+      setDeleting(null);
+    }
   };
 
   return (

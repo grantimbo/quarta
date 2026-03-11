@@ -32,6 +32,11 @@ const AddItem = ({ setAddItem }) => {
       return;
     }
 
+    if (!uid) {
+      notify("error", "User not authenticated");
+      return;
+    }
+
     // set loading
     setLoading("Saving...");
 
@@ -42,22 +47,17 @@ const AddItem = ({ setAddItem }) => {
       value: value,
       date: Date.now(),
       note: !note
-        ? `${category?.name} ${method == 0 ? "expense" : "income"}`
+        ? `${category?.name} ${method === 0 ? "expense" : "income"}`
         : note,
       method: method,
     });
 
-    // sort date
-    tmpItems.sort((a, b) => {
-      return a.date - b.date;
-    });
-
-    // reverse sorted (new firstst)
-    tmpItems.reverse();
+    // sort date (newest first)
+    tmpItems.sort((a, b) => b.date - a.date);
 
     // calculate total
     tmpItems.forEach((e) => {
-      e.method == 0
+      e.method === 0
         ? (tmpExpense += parseFloat(e.value))
         : (tmpIncome += parseFloat(e.value));
     });
@@ -91,7 +91,7 @@ const AddItem = ({ setAddItem }) => {
   };
 
   const displayMethod = () => {
-    return method == 0 ? "Expense" : "Income";
+    return method === 0 ? "Expense" : "Income";
   };
 
   return (

@@ -15,7 +15,12 @@ const Profile = () => {
 
   const saveInfo = async () => {
     if (!currency) {
-      ctx.notify("error", `Currency must not be empty`);
+      ctx?.notify("error", `Currency must not be empty`);
+      return;
+    }
+
+    if (!ctx?.uid) {
+      ctx?.notify("error", "User not authenticated");
       return;
     }
 
@@ -27,17 +32,18 @@ const Profile = () => {
       currency: currency,
     };
 
-    // Add a new document in collection "cities"
     const db = getFirestore();
-    await setDoc(doc(db, "users", ctx?.uid), tmpData)
-      .then(() => {
-        ctx.notify("success", "Profile succesfully updated");
-        setLoading(null);
-      })
-      .catch((err) => {
-        ctx.notify("error", err.message);
-        setLoading(null);
-      });
+
+    try {
+      await setDoc(doc(db, "users", ctx.uid), tmpData);
+
+      ctx?.set("profile", tmpData);
+      ctx?.notify("success", "Profile succesfully updated");
+    } catch (err) {
+      ctx?.notify("error", err.message);
+    } finally {
+      setLoading(null);
+    }
   };
 
   return (

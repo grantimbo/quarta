@@ -5,29 +5,35 @@ import Header from "./Header";
 import Loading from "../components/Loading";
 
 export default function DashLayout({ children }) {
-    const ctx = useContext(Context);
-    const { profile, loggedIn } = ctx;
+  const ctx = useContext(Context);
+  const {  loggedIn, uid } = ctx;
 
-    useEffect(() => {
-        if (loggedIn == false) {
-            if (profile === 0) {
-                Router.push("/login");
-            }
-        }
-    }, [ctx.loggedIn]);
+  const authReady = typeof uid !== "undefined";
 
-    return (
+  useEffect(() => {
+    if (!authReady) return;
+
+    if (loggedIn === false) {
+      Router.push("/login");
+    }
+  }, [authReady, loggedIn]);
+
+  if (!authReady) {
+    return <Loading />;
+  }
+
+  return (
+    <>
+      {loggedIn ? (
         <>
-            {profile === 0 || loggedIn === null ? (
-                <Loading />
-            ) : (
-                <>
-                    <Header />
-                    <main className="p-2 max-w-screen-lg mx-auto mb-24 md:p-4">
-                        {children}
-                    </main>
-                </>
-            )}
+          <Header />
+          <main className="p-2 max-w-screen-lg mx-auto mb-24 md:p-4">
+            {children}
+          </main>
         </>
-    );
+      ) : (
+        <Loading />
+      )}
+    </>
+  );
 }
