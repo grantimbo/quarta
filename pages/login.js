@@ -20,12 +20,17 @@ const Login = () => {
   }, [loggedIn]);
 
   const handleLogIn = () => {
+    if (!email || !password) {
+      ctx.notify("error", "Please enter an email and password");
+      return;
+    }
     setLoading("Loggin In...");
     const auth = getAuth();
 
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
         ctx.notify("success", "Sign in successfully");
+        setLoading(null);
       })
       .catch((error) => {
         setLoading(null);
@@ -37,25 +42,27 @@ const Login = () => {
     <>
       <Title title="Login" />
 
-      <div className="grid gap-2 max-w-sm p-10 mx-auto mt-36">
-        <h1 className="text-3xl font-medium mb-8 text-center">Login</h1>
-        <Input type={`text`} setValue={setEmail} placeholder="Email" />
-        <Input
-          type={`password`}
-          setValue={setPassword}
-          placeholder="Password"
-        />
-        <Button
-          onClick={() => handleLogIn()}
-          text="Login"
-          icon="lock"
-          loading={loading}
-        />
+      <div className="flex items-center justify-center min-h-screen">
+        <div className=" grid gap-2 p-10 w-full max-w-xs bg-white rounded-xl shadow-md">
+          <h1 className="text-3xl font-medium mb-8 text-center">Login</h1>
+          <Input type={`email`} setValue={setEmail} placeholder="Email" />
+          <Input
+            type={`password`}
+            setValue={setPassword}
+            placeholder="Password"
+          />
+          <Button
+            onClick={() => handleLogIn()}
+            text="Login"
+            icon="lock"
+            loading={loading}
+          />
 
-        <p className="text-center py-2 text-gray-500">or</p>
+          <p className="text-center py-2 text-gray-500">or</p>
 
-        <ButtonLink href={`/signup`} text="Create Account" color="gray" />
-        <ButtonLink href={`/recovery`} text="Reset my Password" color="gray" />
+          <ButtonLink href={`/signup`} text="Create Account" color="gray" />
+          <ButtonLink href={`/recovery`} text="Reset my Password" color="gray" />
+        </div>
       </div>
     </>
   );

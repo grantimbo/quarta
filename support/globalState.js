@@ -24,7 +24,7 @@ let profileListener = null;
 
 export class GlobalStateProvider extends React.Component {
   state = {
-    profile: 0,
+    profile: {},
     notifications: [],
     loggedIn: false,
     activeMonth: `${m}_${y}`,
@@ -83,7 +83,7 @@ export class GlobalStateProvider extends React.Component {
         this.setState({
           uid: null,
           email: null,
-          profile: 0,
+          profile: {},
           loggedIn: false,
         });
         profileListener && profileListener();

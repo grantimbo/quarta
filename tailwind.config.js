@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     fontFamily: {
       sans: [
-        "Fredoka",
+        "Poppins",
         "ui-sans-serif",
         "system-ui",
         "-apple-system",

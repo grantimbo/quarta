@@ -19,11 +19,7 @@ export default function Home() {
             <p className="text-lg font-light mb-6 md:mb-10 md:text-2xl">
               {`Track your earnings and spendings in the most easy and efficient way.`}
             </p>
-            <ButtonLink
-              text="Create Account"
-              href="/signup"
-              additionalClasses="md:hidden"
-            />
+
             <ButtonLink
               text="Create Account"
               href="/signup"
