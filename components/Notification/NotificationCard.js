@@ -12,7 +12,7 @@ const NotificationCard = ({ text, type = "success" }) => {
 
   return (
     <div
-      className={`text-white  px-3 py-2 rounded-lg space-x-2 flex items-center fade-in text-sm md:text-base md:px-6 md:py-4 ${types[type]}`}
+      className={`fade-in flex items-center space-x-2 rounded-lg px-3 py-2 text-sm text-white shadow-md md:px-6 md:py-4 md:text-base ${types[type]}`}
     >
       <span className="material-icons-round text-3xl">
         {icon[type] || icon["success"]}

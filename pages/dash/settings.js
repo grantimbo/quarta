@@ -12,10 +12,21 @@ const Settings = () => {
 
       <DashLayout>
         <BackHomeLink />
+
         <PageTitle title="Settings" />
         <Profile />
         <PageTitle title="Categories" />
         <Categories />
+        {/* <div className="mb-8 grid max-w-sm md:mb-16">
+          <PageTitle title="Danger Zone" />
+          <Button
+            onClick={() => console.log("delete use")}
+            text="Delete Account"
+            icon="trash"
+            color="red"
+            // loading={loading}
+          />
+        </div> */}
       </DashLayout>
     </>
   );

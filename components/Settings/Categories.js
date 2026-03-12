@@ -15,8 +15,8 @@ const EditCategories = () => {
   const income = ctx?.profile?.categories?.filter((i) => i.method == 1);
 
   return (
-    <>
-      <section className="grid grid-cols-2 gap-2 w-full max-w-sm mb-6">
+    <div className="mb-8 max-w-sm md:mb-16">
+      <section className="mb-6 grid w-full max-w-sm grid-cols-2 gap-2">
         <CategoryCard
           title={`Expenses`}
           catList={expense}
@@ -50,7 +50,7 @@ const EditCategories = () => {
           />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,8 @@
 export const colors = {
-  green: "text-white bg-lime-500 hover:bg-lime-400 focus:outline-lime-700",
-  gray: "text-slate-500 bg-slate-300 hover:bg-slate-200 focus:outline-slate-700",
-  red: "text-white bg-red-500 hover:bg-red-400 focus:outline-red-700",
+  green:
+    "bg-lime-500 hover:bg-lime-400 text-white dark:text-slate-50 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:focus:outline-emerald-700  focus:outline-lime-700 ",
+  gray: "text-slate-500 dark:text-slate-400 bg-slate-300 hover:bg-slate-200 focus:outline-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:focus:outline-slate-700",
+  red: "text-white dark:text-slate-50 bg-red-500 hover:bg-red-400 focus:outline-red-700 dark:bg-red-500 dark:hover:bg-red-400 dark:focus:outline-red-700",
 };
 
 export const sizes = {
@@ -11,8 +12,7 @@ export const sizes = {
   xl: "px-10 py-3 text-2xl",
 };
 
-export const style = `  space-x-2 cursor-pointer shadow-md rounded-md text-center justify-center inline-flex items-center`
-
+export const style = `space-x-2 cursor-pointer shadow-md rounded-md text-center justify-center inline-flex items-center`;
 
 const Button = (props) => {
   const { onClick, text, icon, additionalClasses, color, size, loading } =
@@ -20,12 +20,13 @@ const Button = (props) => {
   return (
     <button
       onClick={() => !loading && onClick()}
-      className={`${style} ${colors[color] || colors.green} ${sizes[size] || sizes.md
-        } ${additionalClasses}`}
+      className={`${style} ${colors[color] || colors.green} ${
+        sizes[size] || sizes.md
+      } ${additionalClasses}`}
     >
       {loading ? (
         <>
-          <span className="material-icons-round animate-spin origin-center">
+          <span className="material-icons-round origin-center animate-spin">
             rotate_right
           </span>
         </>

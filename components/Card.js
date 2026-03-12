@@ -20,10 +20,10 @@ const Card = (props) => {
 
   return (
     <div
-      className="bg-white rounded-lg shadow-sm px-2 py-1 cursor-pointer fade-in md:px-4 md:py-2"
+      className="fade-in cursor-pointer rounded-lg bg-white px-2 py-1 shadow-sm md:px-4 md:py-2 dark:bg-slate-800"
       key={item?.id}
     >
-      <div className="font-thin text-xs border-b border-gray-100 pb-1 flex items-center justify-between text-gray-400 md:font-light md:text-sm">
+      <div className="flex items-center justify-between border-b border-gray-100 pb-1 text-xs font-thin text-gray-400 md:text-sm md:font-light dark:border-slate-700">
         <span>{displayDate(date)}</span>
         <span>{item?.method == 0 ? "Expenses" : "Income"}</span>
       </div>
@@ -31,7 +31,7 @@ const Card = (props) => {
         className="flex items-center justify-between py-1 pb-1 text-sm font-medium md:py-2 md:text-2xl"
         title={`${displayValue()} | ${item?.note}`}
       >
-        <span className="flex space-x-1 items-center md:space-x-3">
+        <span className="flex items-center space-x-1 md:space-x-3">
           <span className="material-icons-round text-sm md:text-2xl">
             {item?.category?.icon}
           </span>

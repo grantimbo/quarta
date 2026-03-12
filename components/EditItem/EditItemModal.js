@@ -8,7 +8,7 @@ const Details = (props) => {
 
   return (
     <>
-      <div className="font-medium border-b border-gray-200 pb-2 mb-4 flex items-center space-x-2">
+      <div className="mb-4 flex items-center space-x-2 border-b border-gray-200 pb-2 font-medium dark:border-slate-700">
         <span className="material-icons-round text-lg md:text-2xl">
           {data?.category?.icon && data?.category?.icon}
           {!data?.category?.name && (

@@ -1,21 +1,27 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+  box-sizing: border-box;
+  font-family: Poppins, sans-serif;
+}
 
 .fade-in {
-	opacity: 1;
-	animation-name: fadeInOpacity;
-	animation-iteration-count: 1;
-	animation-timing-function: ease;
-	animation-duration: .3s;
+  opacity: 1;
+  animation-name: fadeInOpacity;
+  animation-iteration-count: 1;
+  animation-timing-function: ease;
+  animation-duration: 0.3s;
 }
 
 @keyframes fadeInOpacity {
-	0% {
-		opacity: 0;
+  0% {
+    opacity: 0;
     transform: translateY(10px);
-	}
-	100% {
-		opacity: 1;
+  }
+  100% {
+    opacity: 1;
     transform: translateY(0);
-	}
+  }
 }

@@ -47,14 +47,14 @@ const Profile = () => {
   };
 
   return (
-    <section className="grid mb-8 max-w-sm md:mb-16">
+    <section className="mb-8 grid max-w-sm md:mb-16">
       <InputLabel text="Name" />
       <Input
         type={`text`}
         color="gray"
         value={name}
         setValue={setName}
-        placeholder="Hudson Grant"
+        placeholder="Hudson"
         additionalClasses="mb-4"
       />
 
@@ -64,6 +64,7 @@ const Profile = () => {
         setCurrency={setCurrency}
         color="gray"
       />
+
       <Button
         onClick={() => saveInfo()}
         text="Save"

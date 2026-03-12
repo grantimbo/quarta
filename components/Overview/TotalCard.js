@@ -22,14 +22,14 @@ const OverviewCard = ({ currency, link, data, name }) => {
   return (
     <div
       onClick={() => Router.push(link)}
-      className="bg-white shadow-sm p-2 rounded-lg flex items-center cursor-pointer md:p-6"
+      className="flex cursor-pointer items-center rounded-lg bg-white p-2 shadow-sm md:p-6 dark:bg-slate-800"
       title={`${name}: ${displayValue()}`}
     >
       <div className="w-full">
-        <div className="text-xl font-medium md:text-4xl truncate">
+        <div className="truncate text-xl font-medium md:text-4xl">
           {displayValue()}
         </div>
-        <div className="text-xs font-thin md:font-light md:text-base">
+        <div className="text-xs font-thin md:text-base md:font-light">
           {name}
         </div>
       </div>

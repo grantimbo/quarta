@@ -9,11 +9,11 @@ const BarChart = ({ data, filterWord, setFilterWord }) => {
   }, 0);
 
   return (
-    <div className="grid gap-3 p-2 pb-3 mb-6 shadow-sm bg-white rounded-md md:gap-10 md:p-6 md:pb-10 md:mb-10">
+    <div className="mb-6 grid gap-3 rounded-md bg-white p-2 pb-3 shadow-sm md:mb-10 md:gap-10 md:p-6 md:pb-10 dark:bg-slate-800">
       {data?.map((e) => {
         return (
           <div key={e.category}>
-            <div className="flex justify-between mb-1 font-medium text-sm md:text-xl">
+            <div className="mb-1 flex justify-between text-sm font-medium md:text-xl">
               <div>
                 {e?.category} - {parseInt((e?.value / total) * 100)}%
               </div>
@@ -21,7 +21,7 @@ const BarChart = ({ data, filterWord, setFilterWord }) => {
             </div>
 
             <div
-              className="h-2 bg-lime-100 rounded-full overflow-hidden w-full relative hover:opacity-80 cursor-pointer md:h-4"
+              className="relative h-2 w-full cursor-pointer overflow-hidden rounded-full bg-lime-100 hover:opacity-80 md:h-4"
               onClick={() => {
                 filterWord === e.category
                   ? setFilterWord(null)
@@ -29,7 +29,7 @@ const BarChart = ({ data, filterWord, setFilterWord }) => {
               }}
             >
               <span
-                className="absolute top-0 bottom-0 left-0 bg-lime-400 "
+                className="absolute top-0 bottom-0 left-0 bg-lime-400 dark:bg-emerald-400"
                 style={{ width: `${parseInt((e?.value / total) * 100)}%` }}
               />
             </div>
