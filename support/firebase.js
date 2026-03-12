@@ -1,9 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp, getApps } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth } from "firebase/auth"; // Added Auth since you are using Google Login
+import { getAuth } from "firebase/auth";
 
-// Your web app's Firebase configuration using Environment Variables
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
@@ -11,19 +9,17 @@ const firebaseConfig = {
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
-  measurementId: "G-VQP01VYLEL", // You can also move this to .env if you prefer
+  measurementId: "G-VQP01VYLEL",
 };
 
-// Initialize Firebase (Preventing double initialization in Next.js)
-const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-// Initialize Analytics only on the client side
+let app;
 let analytics;
+let auth;
+
 if (typeof window !== "undefined") {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   analytics = getAnalytics(app);
+  auth = getAuth(app);
 }
 
-// Export Auth for use in your Login component
-export const auth = getAuth(app);
-export { app, analytics };
+export { app, analytics, auth };
