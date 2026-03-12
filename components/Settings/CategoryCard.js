@@ -10,10 +10,10 @@ const CategoryCard = ({ title, catList, setEditCategoryModal }) => {
             <div
               key={cat?.name}
               onClick={() => setEditCategoryModal(cat)}
-              className={`bg-gray-50 border rounded-full py-1 px-3 text-xs flex items-center space-x-2 text-gray-600 cursor-pointer md:py-2 md:px-4 md:text-sm`}
+              className={`flex cursor-pointer items-center space-x-2 rounded-full border bg-gray-50 px-3 py-1 text-xs text-gray-600 md:px-4 md:py-2 md:text-sm dark:bg-slate-800 dark:text-slate-400`}
             >
               {cat?.icon && (
-                <span className="material-icons-round text-gray-500 text-lg md:text-xl">
+                <span className="material-icons-round text-lg text-gray-500 md:text-xl dark:text-slate-400">
                   {cat?.icon}
                 </span>
               )}

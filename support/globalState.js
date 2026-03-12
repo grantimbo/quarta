@@ -1,15 +1,15 @@
 import React from "react";
-import app from "./firebase";
+import { app } from "./firebase";
 import {
   doc,
-  getDocs,
+  getDoc,
   onSnapshot,
   getFirestore,
-  collection,
 } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export const Context = React.createContext();
+
 
 export const GlobalState = () => {
   return React.useContext(Context);
@@ -18,13 +18,20 @@ export const GlobalState = () => {
 const d = new Date();
 const m = ("0" + (d.getMonth() + 1)).slice(-2);
 const y = d.getFullYear();
+// let auth;
+// let db;
 const auth = getAuth();
 const db = getFirestore();
-let profileListener = null;
 
 export class GlobalStateProvider extends React.Component {
+  authUnsub = null;
+  profileListener = null;
+
+  // auth = getAuth(app);
+  // db = getFirestore(app);
+
   state = {
-    profile: 0,
+    profile: {},
     notifications: [],
     loggedIn: false,
     activeMonth: `${m}_${y}`,
@@ -53,51 +60,111 @@ export class GlobalStateProvider extends React.Component {
     });
   }
 
-  listenForProfile(uid) {
-    const getData = async () => {
-      const userData = collection(db, `users/${uid}/data`);
-      const docSnap = await getDocs(userData);
+  async loadActiveMonthData() {
+    // FIX 1: Pull activeMonth from state
+    const { uid, activeMonth } = this.state;
 
-      this.setState({
-        monthList: docSnap.docs.map((doc) => doc.id),
-      });
-    };
+    if (!uid) return;
 
-    getData();
+    try {
+      const monthDocRef = doc(db, `users/${uid}/data`, activeMonth);
+      const docSnap = await getDoc(monthDocRef);
 
-    profileListener = onSnapshot(doc(db, "users", uid), (doc) => {
-      this.setState({ profile: doc.data() });
-    });
+      if (docSnap.exists()) {
+        const docData = docSnap.data();
+        this.setState({
+          data: docData.data || [],
+          total: docData.total || { income: 0, expense: 0, balance: 0 }
+        });
+        return docData; // Return the actual data found
+      } else {
+        // If the month doesn't exist yet, reset the view
+        this.setState({ data: [], total: { income: 0, expense: 0, balance: 0 } });
+      }
+    } catch (error) {
+      this.notify("error", "Failed to load month data.");
+    }
   }
 
+listenForProfile(uid) {
+  // Use a single listener for the profile document
+  this.profileListener = onSnapshot(doc(db, "users", uid), (docSnap) => {
+    if (docSnap.exists()) {
+      const userData = docSnap.data();
+      
+      this.setState({ 
+        profile: userData,
+        // Fallback to empty array if the field doesn't exist yet
+        monthList: userData.availableMonths || [] 
+      });
+    }
+  }, (error) => {
+    this.notify("error", "Lost connection to profile data.");
+  });
+}
+
+
+// 1. Initial setup: Listen for Auth changes
   componentDidMount() {
-    onAuthStateChanged(auth, (user) => {
+    this.authUnsub = onAuthStateChanged(auth, (user) => {
       if (user) {
         this.setState({
           uid: user.uid,
           email: user.email,
           loggedIn: true,
+          
+        }, () => {
+          // After state updates, start listeners and load current data
+          this.listenForProfile(user.uid);
+          this.loadActiveMonthData(); 
         });
-        this.listenForProfile(user.uid);
       } else {
-        this.setState({
-          uid: null,
-          email: null,
-          profile: 0,
-          loggedIn: false,
-        });
-        profileListener && profileListener();
+        this.cleanupSession();
       }
     });
+  }
+
+  // 2. React to activeMonth changes (The "DateSelector" trigger)
+  componentDidUpdate(prevProps, prevState) {
+    // If the month changed and we have a user, fetch new data
+    if (prevState.activeMonth !== this.state.activeMonth && this.state.loggedIn) {
+      this.loadActiveMonthData();
+    }
+  }
+
+  // 3. Cleanup logic (moved to a helper to keep things dry)
+  cleanupSession() {
+    this.setState({
+      uid: null,
+      email: null,
+      profile: {},
+      loggedIn: false,
+      notifications: [],
+      monthList: [],
+      data: [],
+      total: { income: 0, expense: 0, balance: 0 },
+    });
+    
+    if (this.profileListener) {
+      this.profileListener();
+      this.profileListener = null;
+    }
+  }
+
+  componentWillUnmount() {
+    if (this.authUnsub) this.authUnsub();
+    if (this.profileListener) this.profileListener();
   }
 
   render() {
     return (
       <Context.Provider
-        value={Object.assign(this.state, {
+        value={{
+          ...this.state,
           set: (key, value) => this.set(key, value),
           notify: (kind, msg) => this.notify(kind, msg),
-        })}
+          loadActiveMonthData: () => this.loadActiveMonthData(),
+        }}
       >
         {this.props.children}
       </Context.Provider>

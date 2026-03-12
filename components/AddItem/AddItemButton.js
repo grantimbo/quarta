@@ -20,6 +20,7 @@ const AddItemButton = () => {
       {addItem && (
         <Modal onClose={() => setAddItem(null)}>
           <AddItemModal setAddItem={setAddItem} />
+
         </Modal>
       )}
     </>

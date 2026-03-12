@@ -9,11 +9,11 @@ const Modal = ({ children, onClose }) => {
   }, []);
 
   return (
-    <div className="fixed -top-2 left-0 bottom-0 right-0 p-4 fade-in z-50 md:p-10 overflow-x-auto">
-      <div className="bg-gray-50 rounded-lg p-4 max-w-lg w-full mx-auto mt-4 relative z-10 shadow-sm md:mt-20 ">
+    <div className="fade-in fixed -top-2 right-0 bottom-0 left-0 z-50 overflow-x-auto p-4 md:p-10">
+      <div className="relative z-10 mx-auto mt-4 w-full max-w-lg rounded-lg bg-gray-50 p-4 shadow-sm md:mt-20 dark:bg-slate-800">
         <div
           onClick={onClose}
-          className="absolute right-3 top-2 cursor-pointer "
+          className="absolute top-2 right-3 cursor-pointer text-slate-500 dark:text-slate-400"
         >
           <span className="material-icons-round text-4xl">highlight_off</span>
         </div>
@@ -23,7 +23,7 @@ const Modal = ({ children, onClose }) => {
 
       <div
         onClick={onClose}
-        className="fixed top-0 left-0 bottom-0 right-0 bg-black bg-opacity-30"
+        className="fixed top-0 right-0 bottom-0 left-0 bg-black/80 dark:bg-slate-900/80"
       />
     </div>
   );

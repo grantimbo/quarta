@@ -9,9 +9,9 @@ const Input = (props) => {
       onChange={(e) => setValue(e?.target?.value)}
       className={`${
         color == "gray"
-          ? "bg-gray-50 border-2 border-gray-200 text-gray-900 focus:outline-gray-400"
-          : "bg-lime-100 border-2 border-lime-500 text-teal-900 focus:outline-lime-400"
-      } text-sm hover:bg-opacity-80 px-6 py-2 rounded-full md:text-lg  ${additionalClasses}`}
+          ? "border-gray-200 bg-gray-50 text-gray-900 focus:outline-gray-400 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+          : "border-emerald-500 bg-emerald-100 text-teal-900 focus:outline-emerald-400 dark:border-emerald-500 dark:bg-emerald-500/10 dark:text-emerald-500"
+      } hover:bg-opacity-80 rounded-lg border-2 px-6 py-2 text-sm md:text-lg ${additionalClasses}`}
       placeholder={placeholder}
     ></input>
   );

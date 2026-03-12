@@ -12,7 +12,7 @@ const CategorySelector = ({ method, category, setCategory }) => {
   const income = ctx?.profile?.categories?.filter((e) => e.method == 1);
 
   return (
-    <div className="grid grid-cols-2 gap-1 mb-6 md:grid-cols-3 md:gap-2">
+    <div className="mb-6 grid grid-cols-2 gap-1 md:grid-cols-3 md:gap-2">
       {method === 0
         ? expense?.map((cat) => {
             return (
@@ -26,9 +26,9 @@ const CategorySelector = ({ method, category, setCategory }) => {
                 key={cat?.name}
                 className={`${
                   cat?.name == category?.name
-                    ? "bg-lime-200 border-lime-500 text-lime-600 "
-                    : "bg-gray-50 text-gray-500"
-                }  border-2 rounded-full px-4 py-2 cursor-pointer flex items-center justify-left space-x-2 text-xs md:text-base`}
+                    ? "border-emerald-500 bg-emerald-200 text-emerald-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-500"
+                    : "border-2 border-gray-200 bg-gray-50 text-gray-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                } justify-left flex cursor-pointer items-center space-x-2 rounded-full border-2 px-4 py-2 text-xs md:text-base`}
               >
                 {cat?.icon && (
                   <span className="material-icons-round text-sm md:text-xl">
@@ -51,9 +51,9 @@ const CategorySelector = ({ method, category, setCategory }) => {
                 key={cat?.name}
                 className={`${
                   cat?.name == category?.name
-                    ? "bg-lime-200 border-lime-500 text-lime-600 "
-                    : "bg-gray-50 text-gray-500"
-                }  border-2 rounded-full px-4 py-2 cursor-pointer flex items-center justify-center space-x-2 text-sm`}
+                    ? "border-emerald-500 bg-emerald-200 text-emerald-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-500"
+                    : "border-2 border-gray-200 bg-gray-50 text-gray-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                } justify-left flex cursor-pointer items-center space-x-2 rounded-full border-2 px-4 py-2 text-xs md:text-base`}
               >
                 {cat?.icon && (
                   <span className="material-icons-round">{cat?.icon}</span>

@@ -6,27 +6,33 @@ import Loading from "../components/Loading";
 
 export default function DashLayout({ children }) {
   const ctx = useContext(Context);
-  const { profile, loggedIn } = ctx;
+  const {  loggedIn, uid } = ctx;
+
+  const authReady = typeof uid !== "undefined";
 
   useEffect(() => {
-    if (loggedIn == false) {
-      if (profile === 0) {
-        Router.push("/login");
-      }
+    if (!authReady) return;
+
+    if (loggedIn === false) {
+      Router.push("/login");
     }
-  }, [ctx.loggedIn]);
+  }, [authReady, loggedIn]);
+
+  if (!authReady) {
+    return <Loading />;
+  }
 
   return (
     <>
-      {profile === 0 || loggedIn === null ? (
-        <Loading />
-      ) : (
+      {loggedIn ? (
         <>
           <Header />
           <main className="p-2 max-w-screen-lg mx-auto mb-24 md:p-4">
             {children}
           </main>
         </>
+      ) : (
+        <Loading />
       )}
     </>
   );
