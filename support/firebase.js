@@ -3,26 +3,23 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_APIKEY,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTHDOMAIN,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGEBUCKET,
   messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGINGSENDERID,
   appId: process.env.NEXT_PUBLIC_FIREBASE_APPID,
-  measurementId: "G-VQP01VYLEL",
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENTID,
 };
 
-// Initialize Firebase once (server and client)
-const app =
-  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
-// Analytics only in the browser
+let app;
 let analytics;
-if (typeof window !== "undefined") {
-  analytics = getAnalytics(app);
-}
+let auth;
 
-// Auth instance
-const auth = getAuth(app);
+if (typeof window !== "undefined") {
+  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+  analytics = getAnalytics(app);
+  auth = getAuth(app);
+}
 
 export { app, analytics, auth };
