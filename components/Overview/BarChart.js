@@ -21,7 +21,7 @@ const BarChart = ({ data, filterWord, setFilterWord }) => {
             </div>
 
             <div
-              className="relative h-2 w-full cursor-pointer overflow-hidden rounded-full bg-lime-100 hover:opacity-80 md:h-4"
+              className="relative h-2 w-full cursor-pointer overflow-hidden rounded-full bg-emerald-100 hover:opacity-80 md:h-4"
               onClick={() => {
                 filterWord === e.category
                   ? setFilterWord(null)
@@ -29,7 +29,7 @@ const BarChart = ({ data, filterWord, setFilterWord }) => {
               }}
             >
               <span
-                className="absolute top-0 bottom-0 left-0 bg-lime-400 dark:bg-emerald-400"
+                className="absolute top-0 bottom-0 left-0 bg-emerald-400 dark:bg-emerald-400"
                 style={{ width: `${parseInt((e?.value / total) * 100)}%` }}
               />
             </div>

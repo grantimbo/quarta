@@ -1,6 +1,6 @@
 export const colors = {
   green:
-    "bg-lime-500 hover:bg-lime-400 text-white dark:text-slate-50 dark:bg-emerald-500 dark:hover:bg-emerald-400 dark:focus:outline-emerald-700  focus:outline-lime-700 ",
+    "bg-emerald-400 hover:bg-emerald-300 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-slate-50 focus:outline-emerald-700 ",
   gray: "text-slate-500 dark:text-slate-400 bg-slate-300 hover:bg-slate-200 focus:outline-slate-700 dark:bg-slate-700 dark:hover:bg-slate-600 dark:focus:outline-slate-700",
   red: "text-white dark:text-slate-50 bg-red-500 hover:bg-red-400 focus:outline-red-700 dark:bg-red-500 dark:hover:bg-red-400 dark:focus:outline-red-700",
 };

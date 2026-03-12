@@ -26,7 +26,7 @@ const CategorySelector = ({ method, category, setCategory }) => {
                 key={cat?.name}
                 className={`${
                   cat?.name == category?.name
-                    ? "border-lime-500 bg-lime-200 text-lime-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-500"
+                    ? "border-emerald-500 bg-emerald-200 text-emerald-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-500"
                     : "border-2 border-gray-200 bg-gray-50 text-gray-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
                 } justify-left flex cursor-pointer items-center space-x-2 rounded-full border-2 px-4 py-2 text-xs md:text-base`}
               >
@@ -51,9 +51,9 @@ const CategorySelector = ({ method, category, setCategory }) => {
                 key={cat?.name}
                 className={`${
                   cat?.name == category?.name
-                    ? "border-lime-500 bg-lime-200 text-lime-600"
-                    : "bg-gray-50 text-gray-500"
-                } flex cursor-pointer items-center justify-center space-x-2 rounded-full border-2 px-4 py-2 text-sm`}
+                    ? "border-emerald-500 bg-emerald-200 text-emerald-600 dark:border-emerald-500/20 dark:bg-emerald-500/10 dark:text-emerald-500"
+                    : "border-2 border-gray-200 bg-gray-50 text-gray-500 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+                } justify-left flex cursor-pointer items-center space-x-2 rounded-full border-2 px-4 py-2 text-xs md:text-base`}
               >
                 {cat?.icon && (
                   <span className="material-icons-round">{cat?.icon}</span>

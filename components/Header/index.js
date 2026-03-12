@@ -27,7 +27,7 @@ const Header = () => {
       root.classList.add("dark");
     } else {
       const prefersDark = window.matchMedia(
-        "(prefers-color-scheme: dark)"
+        "(prefers-color-scheme: dark)",
       ).matches;
       if (prefersDark) {
         root.classList.add("dark");
@@ -61,7 +61,7 @@ const Header = () => {
         <button
           type="button"
           aria-label="Toggle theme"
-          className="ml-2 flex items-center justify-center rounded-full border border-gray-200 bg-gray-50 p-2 text-gray-700 transition hover:border-lime-500 hover:bg-lime-100 hover:text-lime-700 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:border-lime-400 dark:hover:bg-slate-700 dark:hover:text-slate-50"
+          className="hover:border-emeral-500 dark:hover:border-emeral-400 ml-2 flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-50 p-2 text-gray-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50"
           onClick={() => {
             const next = theme === "dark" ? "light" : "dark";
             if (typeof window !== "undefined") {

@@ -1,6 +1,6 @@
 const NotificationCard = ({ text, type = "success" }) => {
   const types = {
-    success: "bg-lime-500",
+    success: "bg-emerald-500",
     error: "bg-red-600",
     info: "bg-slate-300 text-slate-700",
   };
