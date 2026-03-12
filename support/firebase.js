@@ -12,14 +12,17 @@ const firebaseConfig = {
   measurementId: "G-VQP01VYLEL",
 };
 
-let app;
-let analytics;
-let auth;
+// Initialize Firebase once (server and client)
+const app =
+  getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
 
+// Analytics only in the browser
+let analytics;
 if (typeof window !== "undefined") {
-  app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
   analytics = getAnalytics(app);
-  auth = getAuth(app);
 }
+
+// Auth instance
+const auth = getAuth(app);
 
 export { app, analytics, auth };
