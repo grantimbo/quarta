@@ -1,12 +1,13 @@
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import Router from "next/router";
 import { useContext } from "react";
 import { Context } from "../../support/globalState";
+import { auth } from "../../support/firebase";
 
 const LogOut = () => {
   const ctx = useContext(Context);
-  const auth = getAuth();
   const handleSignOut = () => {
+    if (!auth) return;
     signOut(auth)
       .then(() => {
         // Sign-out successful.

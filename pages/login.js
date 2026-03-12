@@ -1,4 +1,4 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useState, useContext, useEffect } from "react";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { Context } from "../support/globalState";
@@ -6,6 +6,7 @@ import Router from "next/router";
 import Title from "../components/Title";
 import Logo from "../components/Header/Logo";
 import Link from "next/link";
+import { auth } from "../support/firebase";
 
 const Login = () => {
   const ctx = useContext(Context);
@@ -20,8 +21,12 @@ const Login = () => {
     setLoading("Connecting to Google...");
 
     try {
-      const auth = getAuth();
       const provider = new GoogleAuthProvider();
+      if (!auth) {
+        setLoading(null);
+        ctx.notify("error", "Authentication is not available right now.");
+        return;
+      }
       // 1. Authenticate with Google
       const result = await signInWithPopup(auth, provider);
 

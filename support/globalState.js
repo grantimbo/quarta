@@ -1,15 +1,12 @@
 import React from "react";
 import { app } from "./firebase";
-import {
-  doc,
-  getDoc,
-  onSnapshot,
-  getFirestore,
-} from "firebase/firestore";
+import { doc, getDoc, onSnapshot, getFirestore } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 
-export const Context = React.createContext();
+const auth = typeof window !== "undefined" && app ? getAuth(app) : null;
+const db = typeof window !== "undefined" && app ? getFirestore(app) : null;
 
+export const Context = React.createContext();
 
 export const GlobalState = () => {
   return React.useContext(Context);
@@ -18,10 +15,6 @@ export const GlobalState = () => {
 const d = new Date();
 const m = ("0" + (d.getMonth() + 1)).slice(-2);
 const y = d.getFullYear();
-// let auth;
-// let db;
-const auth = getAuth();
-const db = getFirestore();
 
 export class GlobalStateProvider extends React.Component {
   authUnsub = null;
@@ -61,7 +54,7 @@ export class GlobalStateProvider extends React.Component {
   }
 
   async loadActiveMonthData() {
-    // FIX 1: Pull activeMonth from state
+    if (!db || !this.state.uid) return;
     const { uid, activeMonth } = this.state;
 
     if (!uid) return;
@@ -74,50 +67,59 @@ export class GlobalStateProvider extends React.Component {
         const docData = docSnap.data();
         this.setState({
           data: docData.data || [],
-          total: docData.total || { income: 0, expense: 0, balance: 0 }
+          total: docData.total || { income: 0, expense: 0, balance: 0 },
         });
         return docData; // Return the actual data found
       } else {
         // If the month doesn't exist yet, reset the view
-        this.setState({ data: [], total: { income: 0, expense: 0, balance: 0 } });
+        this.setState({
+          data: [],
+          total: { income: 0, expense: 0, balance: 0 },
+        });
       }
     } catch (error) {
       this.notify("error", "Failed to load month data.");
     }
   }
 
-listenForProfile(uid) {
-  // Use a single listener for the profile document
-  this.profileListener = onSnapshot(doc(db, "users", uid), (docSnap) => {
-    if (docSnap.exists()) {
-      const userData = docSnap.data();
-      
-      this.setState({ 
-        profile: userData,
-        // Fallback to empty array if the field doesn't exist yet
-        monthList: userData.availableMonths || [] 
-      });
-    }
-  }, (error) => {
-    this.notify("error", "Lost connection to profile data.");
-  });
-}
+  listenForProfile(uid) {
+    // Use a single listener for the profile document
+    this.profileListener = onSnapshot(
+      doc(db, "users", uid),
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
 
+          this.setState({
+            profile: userData,
+            // Fallback to empty array if the field doesn't exist yet
+            monthList: userData.availableMonths || [],
+          });
+        }
+      },
+      (error) => {
+        this.notify("error", "Lost connection to profile data.");
+      },
+    );
+  }
 
-// 1. Initial setup: Listen for Auth changes
+  // 1. Initial setup: Listen for Auth changes
   componentDidMount() {
+    if (!auth) return; // skip on server / during build
     this.authUnsub = onAuthStateChanged(auth, (user) => {
       if (user) {
-        this.setState({
-          uid: user.uid,
-          email: user.email,
-          loggedIn: true,
-          
-        }, () => {
-          // After state updates, start listeners and load current data
-          this.listenForProfile(user.uid);
-          this.loadActiveMonthData(); 
-        });
+        this.setState(
+          {
+            uid: user.uid,
+            email: user.email,
+            loggedIn: true,
+          },
+          () => {
+            // After state updates, start listeners and load current data
+            this.listenForProfile(user.uid);
+            this.loadActiveMonthData();
+          },
+        );
       } else {
         this.cleanupSession();
       }
@@ -127,7 +129,10 @@ listenForProfile(uid) {
   // 2. React to activeMonth changes (The "DateSelector" trigger)
   componentDidUpdate(prevProps, prevState) {
     // If the month changed and we have a user, fetch new data
-    if (prevState.activeMonth !== this.state.activeMonth && this.state.loggedIn) {
+    if (
+      prevState.activeMonth !== this.state.activeMonth &&
+      this.state.loggedIn
+    ) {
       this.loadActiveMonthData();
     }
   }
@@ -144,7 +149,7 @@ listenForProfile(uid) {
       data: [],
       total: { income: 0, expense: 0, balance: 0 },
     });
-    
+
     if (this.profileListener) {
       this.profileListener();
       this.profileListener = null;
