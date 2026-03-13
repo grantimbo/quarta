@@ -1,12 +1,13 @@
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { useState, useContext, useEffect } from "react";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { generateID } from "../support/generateID";
 import { Context } from "../support/globalState";
 import Router from "next/router";
 import Title from "../components/Title";
 import Logo from "../components/Header/Logo";
 import Link from "next/link";
-import { auth } from "../support/firebase";
+import { auth, db } from "../support/firebase";
 
 const Login = () => {
   const ctx = useContext(Context);

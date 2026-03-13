@@ -10,14 +10,17 @@ export default function Home() {
       <Title title="Homepage" />
 
       <Header />
-      <div class="relative overflow-hidden bg-gray-100/50 dark:bg-slate-900">
-        <section class="relative mx-auto max-w-7xl overflow-hidden px-8 py-30 text-center">
-          <h1 class="mb-6 text-5xl font-bold tracking-tight text-emerald-400 md:text-7xl dark:text-emerald-500">
-            Zero Hassle, <br />
-            <span class="text-slate-500 dark:text-slate-400">100% Free.</span>
+      <div class="relative bg-gray-100/50 dark:bg-slate-900">
+        <section class="relative mx-auto max-w-7xl px-8 py-30 text-center">
+          <h1 class="mb-6 text-8xl font-bold tracking-tight text-slate-500 dark:text-slate-400">
+            Super Simple,
+            <br />
+            <div class="text-emerald-400 dark:text-emerald-500">
+              Expense Tracker.
+            </div>
           </h1>
           <p class="mx-auto mb-10 max-w-2xl text-lg leading-relaxed text-slate-400 md:text-xl">
-            Quarta is the free, super simple money tracker. Log an expense in
+            Quarta is the free, super simple expense tracker. Log an expense in
             two seconds, see your balance, and get on with your day.
           </p>
           <button class="z-10 w-full cursor-pointer rounded-xl bg-emerald-400 px-8 py-4 font-bold text-white shadow-md transition hover:bg-emerald-300 md:w-auto dark:bg-emerald-500 dark:hover:bg-emerald-400">
@@ -96,15 +99,15 @@ export default function Home() {
         </section>
       </div>
 
-      <div class="relative overflow-hidden bg-gray-100/50 dark:bg-slate-600">
+      <div class="relative overflow-hidden bg-gray-100/50 dark:bg-slate-700/30">
         {/* <div class="absolute right-[40%] -bottom-20 h-100 w-100 rounded-full bg-emerald-300/10 blur-[80px]"></div> */}
         <div class="mx-auto max-w-7xl px-8 py-24">
           <div class="glass relative overflow-hidden rounded-3xl p-12 text-center">
-            <h2 class="mb-6 text-6xl font-bold text-emerald-500 dark:text-emerald-500">
-              Stop wondering where it went.
+            <h2 class="mb-4 text-6xl font-bold text-emerald-500 dark:text-emerald-500">
+              Zero Hassle, 100% Free.
             </h2>
-            <p class="mb-8 text-slate-400">
-              Join 10,000+ others mastering their money with Quarta.
+            <p class="mb-20 text-slate-400">
+              Join 1,000+ others mastering their money with Quarta.
             </p>
 
             <Link

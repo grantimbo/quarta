@@ -1,8 +1,8 @@
 const NotificationCard = ({ text, type = "success" }) => {
   const types = {
-    success: "bg-emerald-500",
-    error: "bg-red-600",
-    info: "bg-slate-300 text-slate-700",
+    success: "bg-emerald-400 dark:bg-emerald-500",
+    error: "bg-red-600 dark:bg-red-700",
+    info: "bg-slate-300 text-slate-700 dark:bg-slate-700 dark:text-slate-300",
   };
   const icon = {
     success: "done",
