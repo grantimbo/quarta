@@ -57,66 +57,69 @@ const Header = () => {
           <Logo />
         </Link>
 
-        {/* Theme toggle button */}
-        <button
-          type="button"
-          aria-label="Toggle theme"
-          className="hover:border-emeral-500 dark:hover:border-emeral-400 ml-2 flex cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-50 p-2 text-gray-700 transition hover:bg-slate-100 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50"
-          onClick={() => {
-            const next = theme === "dark" ? "light" : "dark";
-            if (typeof window !== "undefined") {
-              window.localStorage.setItem(THEME_KEY, next);
-            }
-            applyTheme(next);
-            setTheme(next);
-          }}
-        >
-          {theme === "dark" ? (
-            <span className="material-icons-round" title="Switch to light mode">
-              light_mode
-            </span>
-          ) : (
-            <span className="material-icons-round" title="Switch to dark mode">
-              dark_mode
-            </span>
-          )}
-        </button>
-
-        {ctx?.loggedIn ? (
-          <div className="flex items-center space-x-4">
-            {/* Show 'Dashboard' link only if we are on the Marketing/Home page */}
-            {isHomePage ? (
-              <Link
-                href="/dash"
-                className={`${style} ${colors.green} rounded-full! px-5 py-1 md:py-2`}
+        <div className="flex items-center space-x-2">
+          {/* Theme toggle button */}
+          <button
+            type="button"
+            aria-label="Toggle theme"
+            className="hover:border-emeral-500 dark:hover:border-emeral-400 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-gray-200 bg-gray-50 p-1 text-gray-700 transition hover:bg-slate-100 md:h-10 md:w-10 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700 dark:hover:text-slate-50"
+            onClick={() => {
+              const next = theme === "dark" ? "light" : "dark";
+              if (typeof window !== "undefined") {
+                window.localStorage.setItem(THEME_KEY, next);
+              }
+              applyTheme(next);
+              setTheme(next);
+            }}
+          >
+            {theme === "dark" ? (
+              <span
+                className="material-icons-round text-base! md:text-xl!"
+                title="Switch to light mode"
               >
-                <div>Dashboard</div>
-                <span className="material-icons-round text-3xl">settings</span>
-              </Link>
+                light_mode
+              </span>
             ) : (
-              <div
-                className={`${style} ${colors.green} rounded-full! px-5 py-1 md:py-2`}
-                onClick={() => showDropdown(!dropdown)}
+              <span
+                className="material-icons-round text-base! md:text-xl!"
+                title="Switch to dark mode"
               >
-                {ctx?.profile?.name ? (
-                  <>
-                    <span className="hidden md:block">
-                      Hello, {ctx?.profile?.name}
-                    </span>
-                    <span className="block md:hidden">Account</span>
-                  </>
-                ) : (
-                  <span>Account</span>
-                )}
-                <span className="material-icons-round text-3xl">
-                  account_circle
-                </span>
-              </div>
+                dark_mode
+              </span>
             )}
-          </div>
-        ) : (
-          <ButtonLink href="/login" color="green" text="Login" icon="lock" />
-        )}
+          </button>
+
+          {ctx?.loggedIn ? (
+            <div className="flex items-center space-x-4">
+              {/* Show 'Dashboard' link only if we are on the Marketing/Home page */}
+              {isHomePage ? (
+                <Link
+                  href="/dash"
+                  className={`${style} ${colors.green} rounded-full! px-5 py-1 shadow-none! md:py-2`}
+                >
+                  <div>Dashboard</div>
+                </Link>
+              ) : (
+                <div
+                  className={`${style} ${colors.green} rounded-full! px-5 py-1 shadow-none! md:py-2`}
+                  onClick={() => showDropdown(!dropdown)}
+                >
+                  <span>Account</span>
+                  <span className="material-icons-round text-3xl">
+                    account_circle
+                  </span>
+                </div>
+              )}
+            </div>
+          ) : (
+            <ButtonLink
+              href="/login"
+              color="green"
+              text="Sign In"
+              additionalClasses="shadow-none! rounded-full!"
+            />
+          )}
+        </div>
       </nav>
 
       {dropdown && (
