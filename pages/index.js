@@ -29,8 +29,23 @@ export default function Home() {
           <div class="relative mx-auto mt-20 max-w-4xl">
             <div class="absolute inset-x-0 top-20 h-64 rounded-full bg-emerald-300/30 blur-[120px]"></div>
             <div class="glass relative z-10 rounded-2xl border border-white/10 p-4 shadow-2xl/10">
-              <div class="flex h-[400px] items-center justify-center rounded-xl bg-gray-100 text-slate-700">
-                <p>[ Dashboard Visualization Placeholder ]</p>
+              <div class="flex h-[510px] items-center justify-center rounded-xl bg-gray-100 text-slate-700 dark:bg-[#90a1b9]">
+                <Image
+                  src={"/dash-light.png"}
+                  width={800}
+                  height={540}
+                  alt="Dashboard visualization"
+                  className="rounded-xl shadow-lg dark:hidden"
+                  quality={95}
+                />
+                <Image
+                  src={"/dash-dark.png"}
+                  width={800}
+                  height={540}
+                  alt="Dashboard visualization"
+                  className="hidden rounded-xl shadow-lg dark:block"
+                  quality={95}
+                />
               </div>
             </div>
           </div>
