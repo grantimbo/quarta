@@ -14,8 +14,8 @@ export default function Home() {
 
       <Header />
       <div class="relative bg-gray-100/50 dark:bg-slate-900">
-        <section class="relative mx-auto max-w-7xl px-8 py-30 text-center">
-          <h1 class="mb-6 text-8xl font-bold tracking-tight text-slate-500 dark:text-slate-400">
+        <section class="relative mx-auto max-w-7xl px-4 py-20 text-center md:py-30">
+          <h1 class="mb-6 text-6xl font-bold tracking-tight text-slate-500 md:text-8xl dark:text-slate-400">
             Super Simple,
             <br />
             <div class="text-emerald-400 dark:text-emerald-500">
@@ -70,7 +70,7 @@ export default function Home() {
       </div>
 
       <div class="bg-white dark:bg-slate-900">
-        <section class="mx-auto max-w-7xl px-2 py-24 text-center">
+        <section class="mx-auto max-w-7xl px-4 py-24 text-center">
           <div className="grid gap-10 md:grid-cols-3">
             {[
               {
@@ -132,18 +132,18 @@ export default function Home() {
 
       <div class="relative overflow-hidden bg-gray-100/50 dark:bg-slate-700/30">
         {/* <div class="absolute right-[40%] -bottom-20 h-100 w-100 rounded-full bg-emerald-300/10 blur-[80px]"></div> */}
-        <div class="mx-auto max-w-7xl px-8 py-24">
-          <div class="glass relative overflow-hidden rounded-3xl p-12 text-center">
+        <div class="mx-auto max-w-7xl px-4 py-24 md:py-30">
+          <div class="glass relative rounded-3xl text-center">
             <h2 class="mb-4 text-6xl font-bold text-emerald-500 dark:text-emerald-500">
               Zero Hassle, 100% Free.
             </h2>
-            <p class="mb-20 text-slate-400">
+            <p class="mb-10 text-slate-400 md:mb-20">
               Join 1,000+ others mastering their money with Quarta.
             </p>
 
             <Link
               href="/login"
-              class="rounded-xl bg-emerald-500 px-10 py-4 text-2xl font-bold text-white transition hover:bg-emerald-400 dark:bg-emerald-500"
+              class="rounded-xl bg-emerald-500 px-10 py-4 text-2xl font-bold text-nowrap text-white transition hover:bg-emerald-400 dark:bg-emerald-500"
             >
               Get Started for Free
             </Link>
