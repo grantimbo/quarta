@@ -3,7 +3,7 @@ import Head from "next/head";
 const Title = ({ title }) => {
   return (
     <Head>
-      <title>{title} | Simple Money Tracker</title>
+      <title>{title} | Quarta</title>
     </Head>
   );
 };
