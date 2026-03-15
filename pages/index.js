@@ -3,11 +3,14 @@ import ButtonLink from "../components/ButtonLink";
 import Header from "../components/Header";
 import Title from "../components/Title";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Home() {
   return (
     <>
-      <Title title="Homepage" />
+      <Head>
+        <title>Quarta | Super Simple Expense Tracker</title>
+      </Head>
 
       <Header />
       <div class="relative bg-gray-100/50 dark:bg-slate-900">
@@ -23,12 +26,27 @@ export default function Home() {
             Quarta is the free, super simple expense tracker. Log an expense in
             two seconds, see your balance, and get on with your day.
           </p>
-          <button class="z-10 w-full cursor-pointer rounded-xl bg-emerald-400 px-8 py-4 font-bold text-white shadow-md transition hover:bg-emerald-300 md:w-auto dark:bg-emerald-500 dark:hover:bg-emerald-400">
+          <button
+            onClick={() => {
+              const targetElement = document.querySelector("#demo");
+
+              if (targetElement) {
+                targetElement.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }}
+            class="z-10 w-full cursor-pointer rounded-xl bg-emerald-400 px-8 py-4 font-bold text-white shadow-md transition hover:bg-emerald-300 md:w-auto dark:bg-emerald-500 dark:hover:bg-emerald-400"
+          >
             Watch Demo
           </button>
           <div class="relative mx-auto mt-20 max-w-4xl">
             <div class="absolute inset-x-0 top-20 h-64 rounded-full bg-emerald-300/30 blur-[120px]"></div>
-            <div class="glass relative z-10 rounded-2xl border border-white/10 p-4 shadow-2xl/10">
+            <div
+              class="glass relative z-10 rounded-2xl border border-white/10 p-4 shadow-2xl/10"
+              id="demo"
+            >
               <Image
                 src={"/dash-light.png"}
                 width={960}
