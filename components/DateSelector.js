@@ -27,7 +27,7 @@ const DateSelector = () => {
         dateFormat="MMMM, yyyy"
         showMonthYearPicker // Hides days
         showFullMonthYearPicker // Shows "January" instead of "Jan"
-        className="hover:bg-opacity-80 w-full cursor-pointer appearance-none rounded-lg border-2 border-gray-200 bg-gray-50 px-5 py-2 pr-9 font-sans text-sm text-gray-900 focus:outline-gray-400 md:text-base dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+        className="hover:bg-opacity-80 w-48 cursor-pointer appearance-none rounded-lg border-2 border-gray-200 bg-gray-50 px-5 py-2 pr-9 font-sans text-sm text-gray-900 focus:outline-gray-400 md:text-base dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
       />
     </SelectWrapper>
   );

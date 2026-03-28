@@ -29,3 +29,33 @@ body {
     transform: translateY(0);
   }
 }
+
+/* Date Picker Overides */
+.react-datepicker__month .react-datepicker__month-text,
+.react-datepicker__month .react-datepicker__quarter-text {
+  @apply w-full!;
+}
+.react-datepicker {
+  @apply dark:border-slate-700! dark:bg-slate-800! dark:text-slate-400! dark:shadow-2xl!;
+}
+
+.react-datepicker__header {
+  @apply dark:border-slate-700! dark:bg-slate-800! dark:text-slate-600!;
+}
+
+.react-datepicker__current-month {
+  @apply dark:text-slate-400!;
+}
+
+.react-datepicker__month-text--selected:not([aria-disabled="true"]):hover,
+.react-datepicker__month-text--selected {
+  @apply bg-emerald-500! text-slate-50!;
+}
+
+.react-datepicker-popper[data-placement^="bottom"] .react-datepicker__triangle {
+  @apply dark:fill-slate-800! dark:text-slate-800!;
+}
+
+.react-datepicker-popper .react-datepicker__triangle {
+  @apply dark:stroke-slate-700!;
+}
