@@ -6,6 +6,7 @@ import Button from "../Button";
 const DeleteItem = ({ id, setShowDetails }) => {
   const ctx = useContext(Context);
   const { uid, set, data, notify, activeMonth } = ctx;
+  const roundCurrency = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
   const [loading, setLoading] = useState(null);
 
@@ -25,9 +26,9 @@ const DeleteItem = ({ id, setShowDetails }) => {
 
     // calculate total
     const total = {
-      income: tmpIncome,
-      expense: tmpExpense,
-      balance: tmpIncome - tmpExpense,
+      income: roundCurrency(tmpIncome),
+      expense: roundCurrency(tmpExpense),
+      balance: roundCurrency(tmpExpense - tmpIncome),
     };
 
     // final data

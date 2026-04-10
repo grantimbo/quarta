@@ -23,6 +23,7 @@ const AddItem = ({ setAddItem }) => {
   let tmpIncome = 0;
   let tmpExpense = 0;
   const tmpItems = [].concat(ctx?.data || []);
+  const roundCurrency = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
   const saveItem = async () => {
     // check for erors
@@ -63,9 +64,9 @@ const AddItem = ({ setAddItem }) => {
     });
 
     const total = {
-      income: tmpIncome,
-      expense: tmpExpense,
-      balance: tmpIncome - tmpExpense,
+      income: roundCurrency(tmpIncome),
+      expense: roundCurrency(tmpExpense),
+      balance: roundCurrency(tmpExpense - tmpIncome),
     };
 
     // final data

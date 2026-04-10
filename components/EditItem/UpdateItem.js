@@ -11,6 +11,7 @@ const UpdateItem = (props) => {
   const ctx = useContext(Context);
   const { uid, set, notify, activeMonth } = ctx;
   const { data, setEditItem, setShowDetails } = props;
+  const roundCurrency = (n) => Math.round((n + Number.EPSILON) * 100) / 100;
 
   const [loading, setLoading] = useState(null);
   const [value, setValue] = useState(data?.value);
@@ -61,9 +62,9 @@ const UpdateItem = (props) => {
 
     // calculate total
     const total = {
-      income: tmpIncome,
-      expense: tmpExpense,
-      balance: tmpIncome - tmpExpense,
+      income: roundCurrency(tmpIncome),
+      expense: roundCurrency(tmpExpense),
+      balance: roundCurrency(tmpExpense - tmpIncome),
     };
 
     // final data

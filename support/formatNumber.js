@@ -1,3 +1,8 @@
 export function numberWithCommas(x) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  const parsed = Number(x);
+  const safeNumber = Number.isFinite(parsed) ? parsed : 0;
+  return safeNumber.toLocaleString("en-US", {
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
 }
