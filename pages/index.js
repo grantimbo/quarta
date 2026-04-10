@@ -1,11 +1,22 @@
 import Image from "next/image";
+import { useContext, useEffect } from "react";
+import Router from "next/router";
 import ButtonLink from "../components/ButtonLink";
 import Header from "../components/Header";
 import Title from "../components/Title";
 import Link from "next/link";
 import Head from "next/head";
+import { Context } from "../support/globalState";
 
 export default function Home() {
+  const { loggedIn } = useContext(Context);
+
+  useEffect(() => {
+    if (loggedIn) Router.replace("/app");
+  }, [loggedIn]);
+
+  if (loggedIn) return null;
+
   return (
     <>
       <Head>
